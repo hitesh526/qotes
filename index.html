@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Motivational Quote Generator | Rathod Jaydip</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <!-- 💅 Internal CSS -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+        background-size: 400% 400%;
+        animation: gradient 10s ease infinite;
+      }
+
+      @keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .wrapper {
+        width: 600px;
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 30px 30px 25px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+      }
+
+      .wrapper header {
+        font-size: 35px;
+        font-weight: 600;
+        text-align: center;
+        color: #1e1e1e;
+      }
+
+      .wrapper .content {
+        margin: 35px 0;
+      }
+
+      .quote-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .quote-area i {
+        font-size: 15px;
+        color: #1e1e1e;
+      }
+
+      .quote-area i:first-child {
+        margin: 3px 10px 0 0;
+      }
+
+      .quote-area i:last-child {
+        margin: 0 0 3px 10px;
+      }
+
+      .quote-area .quote {
+        font-size: 22px;
+        text-align: center;
+        word-break: break-word;
+        color: #1e1e1e;
+        opacity: 0;
+        transition: opacity 0.6s ease-in;
+      }
+
+      .quote-area .quote.show {
+        opacity: 1;
+      }
+
+      .content .author {
+        display: flex;
+        font-size: 18px;
+        margin-top: 20px;
+        font-style: italic;
+        justify-content: flex-end;
+        color: #333;
+      }
+
+      .author span:first-child {
+        margin: -7px 5px 0 0;
+        font-family: monospace;
+      }
+
+      .wrapper .buttons {
+        border-top: 1px solid #1e1e1e;
+        padding-top: 20px;
+      }
+
+      .buttons .features {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .features ul {
+        display: flex;
+      }
+
+      .features ul li {
+        margin: 0 5px;
+        height: 47px;
+        width: 47px;
+        display: flex;
+        cursor: pointer;
+        color: #1e1e1e;
+        list-style: none;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #1e1e1e;
+        transition: all 0.3s ease;
+      }
+
+      .features ul li:first-child {
+        margin-left: 0;
+      }
+
+      ul li:is(:hover, .active) {
+        color: #fff;
+        background: #1e1e1e;
+      }
+
+      ul .speech.active {
+        pointer-events: none;
+      }
+
+      .buttons button {
+        border: none;
+        color: #fff;
+        outline: none;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 13px 22px;
+        border-radius: 30px;
+        background: #1e1e1e;
+        transition: all 0.3s ease;
+      }
+
+      .buttons button:hover {
+        background: #333;
+      }
+
+      .buttons button.loading {
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      .buttons button.loading::after {
+        content: "";
+        margin-left: 10px;
+        border: 3px solid #fff;
+        border-top-color: transparent;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        display: inline-block;
+        animation: spin 0.6s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      footer {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        font-size: 18px;
+        color: #1e1e1e;
+        font-weight: 600;
+        padding: 8px 18px;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      footer span {
+        color: #000000;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <header>Quote of the Day</header>
+
+      <div class="content">
+        <div class="quote-area">
+          <i class="fas fa-quote-left"></i>
+          <p class="quote">
+            Never give up because you never know if the next try is going to be
+            the one that works.
+          </p>
+          <i class="fas fa-quote-right"></i>
+        </div>
+
+        <div class="author">
+          <span>—</span>
+          <span class="name">Mary Kay Ash</span>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <div class="features">
+          <ul>
+            <li class="speech" title="Read Aloud">
+              <i class="fas fa-volume-up"></i>
+            </li>
+            <li class="copy" title="Copy Quote">
+              <i class="fas fa-copy"></i>
+            </li>
+            <li class="twitter" title="Share on Twitter">
+              <i class="fab fa-twitter"></i>
+            </li>
+          </ul>
+          <button>New Quote</button>
+        </div>
+      </div>
+    </div>
+ 
+    <footer>
+      Made with by <span>Jaydip Rathod</span>
+    </footer>
+
+    <script>
+      const quoteText = document.querySelector(".quote"),
+        quoteBtn = document.querySelector("button"),
+        authorName = document.querySelector(".name"),
+        speechBtn = document.querySelector(".speech"),
+        copyBtn = document.querySelector(".copy"),
+        twitterBtn = document.querySelector(".twitter"),
+        synth = speechSynthesis;
+
+      function randomQuote() {
+        quoteBtn.classList.add("loading");
+        quoteBtn.innerText = "Loading Quote...";
+        quoteText.classList.remove("show");
+
+        fetch("http://api.quotable.io/random")
+          .then((response) => response.json())
+          .then((result) => {
+            quoteText.innerText = result.content;
+            authorName.innerText = result.author;
+            quoteBtn.classList.remove("loading");
+            quoteBtn.innerText = "New Quote";
+            setTimeout(() => quoteText.classList.add("show"), 100);
+          })
+          .catch(() => {
+            quoteText.innerText =
+              "Oops! Something went wrong. Please try again.";
+            authorName.innerText = "Unknown";
+            quoteBtn.classList.remove("loading");
+            quoteBtn.innerText = "New Quote";
+            setTimeout(() => quoteText.classList.add("show"), 100);
+          });
+      }
+
+      // Speech
+      speechBtn.addEventListener("click", () => {
+        if (!quoteBtn.classList.contains("loading")) {
+          const utterance = new SpeechSynthesisUtterance(
+            `${quoteText.innerText} by ${authorName.innerText}`
+          );
+          synth.speak(utterance);
+          speechBtn.classList.add("active");
+          utterance.onend = () => speechBtn.classList.remove("active");
+        }
+      });
+
+      // Copy
+      copyBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(
+          `${quoteText.innerText} — ${authorName.innerText}`
+        );
+        copyBtn.classList.add("active");
+        setTimeout(() => copyBtn.classList.remove("active"), 1000);
+      });
+
+      // Twitter
+      twitterBtn.addEventListener("click", () => {
+        const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+          '"' + quoteText.innerText + '" — ' + authorName.innerText
+        )}`;
+        window.open(tweetUrl, "_blank");
+      });
+
+      // New Quote Button
+      quoteBtn.addEventListener("click", randomQuote);
+
+      // Spacebar Shortcut
+      document.addEventListener("keydown", (e) => {
+        if (e.code === "Space" && !quoteBtn.classList.contains("loading")) {
+          randomQuote();
+        }
+      });
+
+      // Auto Load on Page Load
+      window.addEventListener("load", randomQuote);
+    </script>
+  </body>
+</html>
