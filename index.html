@@ -258,81 +258,84 @@
       Made with by <span>Jaydip Rathod</span>
     </footer>
 
-    <script>
-      const quoteText = document.querySelector(".quote"),
-        quoteBtn = document.querySelector("button"),
-        authorName = document.querySelector(".name"),
-        speechBtn = document.querySelector(".speech"),
-        copyBtn = document.querySelector(".copy"),
-        twitterBtn = document.querySelector(".twitter"),
-        synth = speechSynthesis;
+<script>
+  const quoteText = document.querySelector(".quote"),
+    quoteBtn = document.querySelector("button"),
+    authorName = document.querySelector(".name"),
+    speechBtn = document.querySelector(".speech"),
+    copyBtn = document.querySelector(".copy"),
+    twitterBtn = document.querySelector(".twitter"),
+    synth = speechSynthesis;
 
-      function randomQuote() {
-        quoteBtn.classList.add("loading");
-        quoteBtn.innerText = "Loading Quote...";
-        quoteText.classList.remove("show");
+  const quotes = [
+    { content: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+    { content: "Success is not final, failure is not fatal: It is the courage to continue that counts.", author: "Winston Churchill" },
+    { content: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+    { content: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+    { content: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+    { content: "Start where you are. Use what you have. Do what you can.", author: "Arthur Ashe" },
+    { content: "You are never too old to set another goal or to dream a new dream.", author: "C.S. Lewis" },
+    { content: "Hardships often prepare ordinary people for an extraordinary destiny.", author: "C.S. Lewis" },
+    { content: "Push yourself, because no one else is going to do it for you.", author: "Hitesh Bharward" },
+    { content: "Great things never come from comfort zones.", author: "Jaydeep Rathod" }
+  ];
 
-        fetch("http://api.quotable.io/")
-          .then((response) => response.json())
-          .then((result) => {
-            quoteText.innerText = result.content;
-            authorName.innerText = result.author;
-            quoteBtn.classList.remove("loading");
-            quoteBtn.innerText = "New Quote";
-            setTimeout(() => quoteText.classList.add("show"), 100);
-          })
-          .catch(() => {
-            quoteText.innerText =
-              "Oops! Something went wrong. Please try again.";
-            authorName.innerText = "Unknown";
-            quoteBtn.classList.remove("loading");
-            quoteBtn.innerText = "New Quote";
-            setTimeout(() => quoteText.classList.add("show"), 100);
-          });
-      }
+  function randomQuote() {
+    quoteBtn.classList.add("loading");
+    quoteBtn.innerText = "Loading Quote...";
+    quoteText.classList.remove("show");
 
-      // Speech
-      speechBtn.addEventListener("click", () => {
-        if (!quoteBtn.classList.contains("loading")) {
-          const utterance = new SpeechSynthesisUtterance(
-            `${quoteText.innerText} by ${authorName.innerText}`
-          );
-          synth.speak(utterance);
-          speechBtn.classList.add("active");
-          utterance.onend = () => speechBtn.classList.remove("active");
-        }
-      });
+    const random = quotes[Math.floor(Math.random() * quotes.length)];
+    quoteText.innerText = random.content;
+    authorName.innerText = random.author;
 
-      // Copy
-      copyBtn.addEventListener("click", () => {
-        navigator.clipboard.writeText(
-          `${quoteText.innerText} — ${authorName.innerText}`
-        );
-        copyBtn.classList.add("active");
-        setTimeout(() => copyBtn.classList.remove("active"), 1000);
-      });
+    quoteBtn.classList.remove("loading");
+    quoteBtn.innerText = "New Quote";
+    setTimeout(() => quoteText.classList.add("show"), 100);
+  }
 
-      // Twitter
-      twitterBtn.addEventListener("click", () => {
-        const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-          '"' + quoteText.innerText + '" — ' + authorName.innerText
-        )}`;
-        window.open(tweetUrl, "_blank");
-      });
+  // Speech
+  speechBtn.addEventListener("click", () => {
+    if (!quoteBtn.classList.contains("loading")) {
+      const utterance = new SpeechSynthesisUtterance(
+        `${quoteText.innerText} by ${authorName.innerText}`
+      );
+      synth.speak(utterance);
+      speechBtn.classList.add("active");
+      utterance.onend = () => speechBtn.classList.remove("active");
+    }
+  });
 
-      // New Quote Button
-      quoteBtn.addEventListener("click", randomQuote);
+  // Copy
+  copyBtn.addEventListener("click", () => {
+    navigator.clipboard.writeText(
+      `${quoteText.innerText} — ${authorName.innerText}`
+    );
+    copyBtn.classList.add("active");
+    setTimeout(() => copyBtn.classList.remove("active"), 1000);
+  });
 
-      // Spacebar Shortcut
-      document.addEventListener("keydown", (e) => {
-        if (e.code === "Space" && !quoteBtn.classList.contains("loading")) {
-          randomQuote();
-        }
-      });
+  // Twitter
+  twitterBtn.addEventListener("click", () => {
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      '"' + quoteText.innerText + '" — ' + authorName.innerText
+    )}`;
+    window.open(tweetUrl, "_blank");
+  });
 
-      // Auto Load on Page Load
-      window.addEventListener("load", randomQuote);
-    </script>
+  // New Quote Button
+  quoteBtn.addEventListener("click", randomQuote);
+
+  // Spacebar Shortcut
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Space" && !quoteBtn.classList.contains("loading")) {
+      randomQuote();
+    }
+  });
+
+  // Auto Load on Page Load
+  window.addEventListener("load", randomQuote);
+</script>
+
   </body>
 </html>
-
